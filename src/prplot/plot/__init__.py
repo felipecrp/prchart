@@ -5,13 +5,16 @@ class Plot:
     def __init__(self):
         self.chart = None
 
+    @property
+    def data(self):
+        return self.chart.data
+
 
 class Bar(Plot):
     def show(self):
         fig, ax = plt.subplots()
 
         category_name = self.chart.binds['category']
-        categories = self.chart.data.groupby([category_name]).count()
         categories = self.chart.data.groupby([category_name]).size().reset_index(name='count')
 
         cat = categories[category_name]
@@ -40,3 +43,22 @@ class Scatter(Plot):
 
         plt.show()
         print('scatter plot')
+
+
+class BoxPlot(Plot):
+    def show(self):
+        fig, ax = plt.subplots()
+
+        x_name = self.chart.binds['x']
+        y_name = self.chart.binds['y']
+
+        categories = self.data.groupby([x_name])[y_name].apply(list)
+        tick_labels = list(categories.index)
+
+        ax.boxplot(
+            categories,
+            tick_labels = tick_labels
+        )
+
+        plt.show()
+        print('box plot')

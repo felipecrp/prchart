@@ -26,3 +26,15 @@ def test_chart_scatter():
         .plot(prp.plot.Scatter())
         .show()
     )
+
+def test_chart_boxplot():
+    data = pd.read_csv('https://raw.githubusercontent.com/datasciencedojo/datasets/refs/heads/master/titanic.csv')
+    (prp.chart()
+        .data(data)
+        .bind(
+            x='Sex',
+            y='Fare'
+        )
+        .plot(prp.plot.BoxPlot())
+        .show()
+    )
