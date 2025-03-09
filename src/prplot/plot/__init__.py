@@ -1,9 +1,6 @@
 import matplotlib.pyplot as plt
 
 
-def bar():
-    return Bar() 
-
 class Plot:
     def __init__(self):
         self.chart = None
@@ -27,3 +24,19 @@ class Bar(Plot):
 
         plt.show()
         print('bar plot')
+
+
+class Scatter(Plot):
+    def show(self):
+        fig, ax = plt.subplots()
+
+        x_name = self.chart.binds['x'] 
+        y_name = self.chart.binds['y']
+
+        x = self.chart.data[x_name]
+        y = self.chart.data[y_name]
+
+        ax.scatter(x, y)
+
+        plt.show()
+        print('scatter plot')
