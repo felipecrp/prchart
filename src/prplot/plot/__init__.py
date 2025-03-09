@@ -9,6 +9,9 @@ class Plot:
     def data(self):
         return self.chart.data
 
+    def save(self, filename):
+        pass
+
 
 class Bar(Plot):
     def show(self):
@@ -19,8 +22,9 @@ class Bar(Plot):
 
         cat = categories[category_name]
         counts = categories['count']
-        # bar_labels = ['red', 'blue', '_red', 'orange']
-        # bar_colors = ['tab:red', 'tab:blue', 'tab:red', 'tab:orange']
+
+        ax.set_xlabel(category_name)
+        ax.set_ylabel('Count')
 
         ax.bar(cat, counts)
         # ax.bar(cat, counts, label=bar_labels, color=bar_colors)
@@ -39,6 +43,9 @@ class Scatter(Plot):
         x = self.chart.data[x_name]
         y = self.chart.data[y_name]
 
+        ax.set_xlabel(x_name)
+        ax.set_ylabel(y_name)
+
         ax.scatter(x, y)
 
         plt.show()
@@ -55,9 +62,12 @@ class BoxPlot(Plot):
         categories = self.data.groupby([x_name])[y_name].apply(list)
         tick_labels = list(categories.index)
 
+        ax.set_xlabel(x_name)
+        ax.set_ylabel(y_name)
+
         ax.boxplot(
             categories,
-            tick_labels = tick_labels
+            tick_labels = tick_labels,
         )
 
         plt.show()
