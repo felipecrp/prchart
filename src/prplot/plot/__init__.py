@@ -1,21 +1,44 @@
+from abc import abstractmethod
 import matplotlib.pyplot as plt
+
+from prplot.style.chart_style import ChartStyle
 
 
 class Plot:
     def __init__(self):
         self.chart = None
+        self.fig = None
+        self.ax = None
 
     @property
     def data(self):
         return self.chart.data
+    
+    @property
+    def style(self) -> ChartStyle:
+        return self.chart.style
+
+    @abstractmethod
+    def draw(self):
+        pass
+
+    def show(self):
+        if not self.ax:
+            self.draw()
+        plt.show()
+        return self
 
     def save(self, filename):
-        pass
+        if not self.ax:
+            self.draw()
+        self.fig.savefig(filename)
+        return self
 
 
 class Bar(Plot):
-    def show(self):
-        fig, ax = plt.subplots()
+    def draw(self):
+        self.fig, self.ax = plt.subplots()
+        ax = self.ax
 
         category_name = self.chart.binds['category']
         categories = self.chart.data.groupby([category_name]).size().reset_index(name='count')
@@ -26,16 +49,19 @@ class Bar(Plot):
         ax.set_xlabel(category_name)
         ax.set_ylabel('Count')
 
-        ax.bar(cat, counts)
-        # ax.bar(cat, counts, label=bar_labels, color=bar_colors)
+        self.style.apply_to_axes(ax)
 
-        plt.show()
-        print('bar plot')
+        ax.bar(
+            cat, 
+            counts, 
+            color=self.style.get_color()
+        )
 
 
 class Scatter(Plot):
-    def show(self):
-        fig, ax = plt.subplots()
+    def draw(self):
+        self.fig, self.ax = plt.subplots()
+        ax = self.ax
 
         x_name = self.chart.binds['x'] 
         y_name = self.chart.binds['y']
@@ -46,15 +72,19 @@ class Scatter(Plot):
         ax.set_xlabel(x_name)
         ax.set_ylabel(y_name)
 
-        ax.scatter(x, y)
+        self.style.apply_to_axes(ax)
 
-        plt.show()
-        print('scatter plot')
+        ax.scatter(
+            x, 
+            y,
+            color=self.style.get_color()
+        )
 
 
 class BoxPlot(Plot):
-    def show(self):
-        fig, ax = plt.subplots()
+    def draw(self):
+        self.fig, self.ax = plt.subplots()
+        ax = self.ax
 
         x_name = self.chart.binds['x']
         y_name = self.chart.binds['y']
@@ -64,11 +94,11 @@ class BoxPlot(Plot):
 
         ax.set_xlabel(x_name)
         ax.set_ylabel(y_name)
+        
+        self.style.apply_to_axes(ax)
 
         ax.boxplot(
             categories,
             tick_labels = tick_labels,
+            # color = self.style.get_color()
         )
-
-        plt.show()
-        print('box plot')
