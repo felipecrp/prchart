@@ -7,8 +7,8 @@ from .bind import Bind
 from .chart import Chart
 
 
-def chart(data: pd.DataFrame, binds, plots):
-    chart = Chart(data, binds, plots)
+def chart(data: pd.DataFrame, binds, axes, plots):
+    chart = Chart(data, binds, axes, plots)
     chart.show()
 
 

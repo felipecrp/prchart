@@ -3,15 +3,14 @@ import pandas as pd
 import prplot as pr
 
 def test_chart():
-    iris = pd.read_csv('https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv')
+    data = pd.read_csv('https://raw.githubusercontent.com/datasciencedojo/datasets/refs/heads/master/titanic.csv')
     pr.chart(
-        data=iris,
-        binds=pr.bind(
-            x='petal_width',
-            y='petal_length'
-        ),
+        data=data,
+        binds={
+            'category': 'Embarked',
+        },
+        axes=None,
         plots=[
             pr.plot.bar()
         ]
     )
-
