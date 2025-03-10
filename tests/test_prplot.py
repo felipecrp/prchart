@@ -1,6 +1,6 @@
 
 import pandas as pd
-import prplot as prc
+import prchart as prc
 
 
 def test_chart_bar():
@@ -57,6 +57,10 @@ def test_chart_boxplot():
         .label(
             title='Fare Boxplot',
             y='Fare (USD)'
+        )
+        .size(
+            width=4,
+            height=6
         )
         .plot(prc.plot.BoxPlot())
         .style(style)

@@ -45,11 +45,11 @@ class ChartStyle:
             ax.spines['bottom'].set_visible(False)
 
     def apply_to_figure(self, fig):
+        # Apparently, matplotlib is coehent when you change the figure size
         left_offset = 0.75 / fig.get_figwidth()
         top_offset = 0.5 / fig.get_figheight()
         right_offset = 0.2 / fig.get_figwidth()
         bottom_offset = 0.5 / fig.get_figheight()
-
         fig.subplots_adjust(
             left=left_offset,
             top=1 - top_offset,

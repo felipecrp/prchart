@@ -2,8 +2,8 @@ from typing import List
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from prplot.plot import Plot
-from prplot.style.chart_style import ChartStyle;
+from prchart.plot import Plot
+from prchart.style.chart_style import ChartStyle;
 
 class Chart:
     def __init__(self, data: pd.DataFrame, size, binds, axes, label, style: ChartStyle, plots):

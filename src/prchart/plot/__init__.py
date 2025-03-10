@@ -1,14 +1,16 @@
 from abc import abstractmethod
+import matplotlib.axes
 import matplotlib.pyplot as plt
+import matplotlib
 
-from prplot.style.chart_style import ChartStyle
+from prchart.style.chart_style import ChartStyle
 
 
 class Plot:
     def __init__(self):
         self.chart = None
         self.fig = None
-        self.ax = None
+        self.ax: matplotlib.axes.Axes = None
 
     @property
     def data(self):
@@ -68,6 +70,16 @@ class BoxPlot(Plot):
         ax.boxplot(
             y,
             tick_labels = x,
-            # color = self.style.get_color()
+            medianprops=dict(color='#333', linewidth=2),
+            flierprops=dict(
+                marker='o', 
+                markerfacecolor='#333', 
+                markeredgecolor='#333',
+                markersize=2,
+            ),
+            boxprops=dict(color=self.style.get_color()),
+            showcaps=True,
+            widths = 0.6,
+            # orientation='horizontal'
         )
 
