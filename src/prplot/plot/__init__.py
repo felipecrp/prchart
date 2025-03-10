@@ -22,57 +22,31 @@ class Plot:
     def draw(self):
         pass
 
-    def show(self):
-        if not self.ax:
-            self.draw()
-        plt.show()
-        return self
-
-    def save(self, filename):
-        if not self.ax:
-            self.draw()
-        self.fig.savefig(filename)
-        return self
-
 
 class Bar(Plot):
     def draw(self):
-        self.fig, self.ax = plt.subplots()
-        ax = self.ax
+        x_bind = self.chart.binds['x']
+        data = self.chart.data.groupby([x_bind]).size().reset_index(name='count')
 
-        category_name = self.chart.binds['category']
-        categories = self.chart.data.groupby([category_name]).size().reset_index(name='count')
+        x = data[x_bind]
+        y = data['count']
 
-        cat = categories[category_name]
-        counts = categories['count']
-
-        ax.set_xlabel(category_name)
-        ax.set_ylabel('Count')
-
-        self.style.apply_to_axes(ax)
-
-        ax.bar(
-            cat, 
-            counts, 
+        self.ax.bar(
+            x, 
+            y, 
             color=self.style.get_color()
         )
 
 
 class Scatter(Plot):
     def draw(self):
-        self.fig, self.ax = plt.subplots()
         ax = self.ax
 
-        x_name = self.chart.binds['x'] 
-        y_name = self.chart.binds['y']
+        x_bind = self.chart.binds['x'] 
+        y_bind = self.chart.binds['y']
 
-        x = self.chart.data[x_name]
-        y = self.chart.data[y_name]
-
-        ax.set_xlabel(x_name)
-        ax.set_ylabel(y_name)
-
-        self.style.apply_to_axes(ax)
+        x = self.chart.data[x_bind]
+        y = self.chart.data[y_bind]
 
         ax.scatter(
             x, 
@@ -83,22 +57,17 @@ class Scatter(Plot):
 
 class BoxPlot(Plot):
     def draw(self):
-        self.fig, self.ax = plt.subplots()
         ax = self.ax
 
         x_name = self.chart.binds['x']
         y_name = self.chart.binds['y']
 
-        categories = self.data.groupby([x_name])[y_name].apply(list)
-        tick_labels = list(categories.index)
-
-        ax.set_xlabel(x_name)
-        ax.set_ylabel(y_name)
-        
-        self.style.apply_to_axes(ax)
+        y = self.data.groupby([x_name])[y_name].apply(list)
+        x = list(y.index)
 
         ax.boxplot(
-            categories,
-            tick_labels = tick_labels,
+            y,
+            tick_labels = x,
             # color = self.style.get_color()
         )
+

@@ -9,9 +9,14 @@ def test_chart_bar():
     (prp.chart()
         .data(data)
         .bind(
-            category='Embarked',
+            x='Embarked',
         )
         .style(style)
+        .label(
+            title='Embarked Count',
+            x='Embarked?',
+            y='People Count'
+        )
         .plot(prp.plot.Bar())
         .save('bar.png')
         .show()
