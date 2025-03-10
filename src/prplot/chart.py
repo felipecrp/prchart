@@ -6,7 +6,7 @@ from prplot.plot import Plot
 from prplot.style.chart_style import ChartStyle;
 
 class Chart:
-    def __init__(self, data: pd.DataFrame, binds, axes, label, style: ChartStyle, plots):
+    def __init__(self, data: pd.DataFrame, size, binds, axes, label, style: ChartStyle, plots):
         self.data = data
         self.binds = binds
         self.axes = axes
@@ -17,13 +17,23 @@ class Chart:
             plot.chart = self
         self.figure = None
         self.ax = None
+        self.size = size
     
     def _draw(self):
+        self._draw_figure()
         self._draw_axes()
         self._draw_plots()
 
+    def _draw_figure(self):
+        if self.size:
+            self.figure, self.ax = plt.subplots(figsize=(self.size['width'], self.size['height']))
+        else:
+            self.figure, self.ax = plt.subplots()
+        
+        fig = self.figure
+        self.style.apply_to_figure(fig)
+
     def _draw_axes(self):
-        self.figure, self.ax = plt.subplots()
         ax = self.ax
 
         if 'title' in self.label:
@@ -31,12 +41,12 @@ class Chart:
 
         if 'x' in self.label:
             ax.set_xlabel(self.label['x'])
-        else:
+        elif 'x' in self.binds:
             ax.set_xlabel(self.binds['x'])
 
         if 'y' in self.label:
             ax.set_ylabel(self.label['y'])
-        else:
+        elif 'y' in self.binds:
             ax.set_ylabel(self.binds['y'])
         
         self.style.apply_to_axes(ax)
@@ -47,10 +57,10 @@ class Chart:
             plot.ax = self.ax
             plot.draw()
 
-    def save(self, filename):
+    def save(self, filename, dpi=96):
         if not self.ax:
             self._draw()
-        self.figure.savefig(filename)
+        self.figure.savefig(filename, dpi=dpi)
 
     def show(self):
         if not self.ax:
@@ -66,6 +76,7 @@ class ChartBuilder:
         self._plots = []
         self._style = None
         self._label = {}
+        self._size = None
         
     def data(self, data: pd.DataFrame):
         self._data = data
@@ -83,19 +94,26 @@ class ChartBuilder:
         self._plots.append(plot)
         return self
     
+    def size(self, width, height):
+        self._size = {
+            'width': width,
+            'height': height
+        }
+        return self
+    
     def style(self, style):
         self._style = style
         return self
     
-    def build(self):
-        return Chart(self._data, self._binds, self._axes, self._label, self._style, self._plots)
+    def build(self) -> Chart:
+        return Chart(self._data, self._size, self._binds, self._axes, self._label, self._style, self._plots)
 
-    def save(self, filename):
+    def save(self, filename, dpi=96) -> Chart:
         chart = self.build()
-        chart.save(filename)
+        chart.save(filename, dpi)
         return chart
 
-    def show(self):
+    def show(self) -> Chart:
         chart = self.build()
         chart.show()
         return chart

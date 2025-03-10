@@ -44,6 +44,19 @@ class ChartStyle:
         else:
             ax.spines['bottom'].set_visible(False)
 
+    def apply_to_figure(self, fig):
+        left_offset = 0.75 / fig.get_figwidth()
+        top_offset = 0.5 / fig.get_figheight()
+        right_offset = 0.2 / fig.get_figwidth()
+        bottom_offset = 0.5 / fig.get_figheight()
+
+        fig.subplots_adjust(
+            left=left_offset,
+            top=1 - top_offset,
+            right=1 - right_offset,
+            bottom=bottom_offset
+        )
+
     @abstractmethod
     def get_color(self):
         pass

@@ -13,7 +13,7 @@ class Grayscale(ChartStyle):
                         color = '#333',
                         fontsize = 10,
                         fontweight = 'normal',
-                        fontname = 'Libertine'
+                        fontname = 'FreeSans'
                     ),
                     tick = dict(
                         color = '#333',
@@ -39,7 +39,7 @@ class Grayscale(ChartStyle):
                         color = '#333',
                         fontsize = 10,
                         fontweight = 'normal',
-                        fontname = 'Libertine'
+                        fontname = 'FreeSans'
                     ),
                     tick = dict(
                         color = '#333',

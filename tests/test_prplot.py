@@ -18,7 +18,11 @@ def test_chart_bar():
             y='People Count'
         )
         .plot(prc.plot.Bar())
-        .save('bar.png')
+        .size(
+            width=4,
+            height=3
+        )
+        .save('bar.png', dpi=300)
         .show()
     )
 
