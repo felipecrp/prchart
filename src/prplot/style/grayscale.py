@@ -4,6 +4,13 @@ from .chart_style import ChartStyle
 class Grayscale(ChartStyle):
     def __init__(self):
         super().__init__(dict(
+            title = dict(
+                position = 'left',
+                color = '#333',
+                fontsize = 12,
+                fontweight = 'bold',
+                fontname = 'FreeSans'
+            ),
             axes = dict(
                 left = dict(
                     spine = dict(

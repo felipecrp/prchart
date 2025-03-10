@@ -37,7 +37,14 @@ class Chart:
         ax = self.ax
 
         if 'title' in self.label:
-            ax.set_title(self.label['title'])
+            ax.set_title(
+                self.label['title'], 
+                loc=self.style.style['title']['position'], 
+                color=self.style.style['title']['color'], 
+                fontsize=self.style.style['title']['fontsize'], 
+                fontweight=self.style.style['title']['fontweight'], 
+                fontname=self.style.style['title']['fontname']
+            )
 
         if 'x' in self.label:
             ax.set_xlabel(self.label['x'])

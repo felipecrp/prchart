@@ -36,6 +36,9 @@ def test_chart_scatter():
             x='Age',
             y='Fare'
         )
+        .label(
+            title='Age vs Fare',
+        )
         .style(style)
         .plot(prc.plot.Scatter())
         .save('scatter.png')
@@ -50,6 +53,10 @@ def test_chart_boxplot():
         .bind(
             x='Sex',
             y='Fare'
+        )
+        .label(
+            title='Fare Boxplot',
+            y='Fare (USD)'
         )
         .plot(prc.plot.BoxPlot())
         .style(style)
