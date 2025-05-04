@@ -2,8 +2,33 @@ from typing import List
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from prchart.bind import Series
+from prchart.geometry import Geometry
 from prchart.plot import Plot
 from prchart.style.chart_style import ChartStyle;
+
+
+class BindChart:
+    def __init__(self, data: pd.DataFrame, series: List[Series]):
+        self.data = data
+        self.serie = series
+
+    def geometry(self, *geometries):
+        return GeometryChart(self.data, self.series, geometries)
+
+
+class GeometryChart:
+    def __init__(self, data: pd.DataFrame, series: List[Series], geometries: List[Geometry]):
+        self.data = data
+        self.serie = series
+        self.geometries = geometries
+    
+    def plot(self):
+        return self
+    
+    def save(self):
+        return self
+
 
 class Chart:
     def __init__(self, data: pd.DataFrame, size, binds, axes, label, style: ChartStyle, plots):

@@ -23,10 +23,17 @@ import prchart.chart as chart
 """
 import pandas as pd
 
+from .chart import BindChart
+
 import prchart.plot
 import prchart.style
 
 from .chart import Chart, ChartBuilder
+
+
+
+def data(df: pd.DataFrame, *binds):
+    return BindChart(df, binds) 
 
 
 def chart():
