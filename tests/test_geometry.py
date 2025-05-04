@@ -19,7 +19,7 @@ class DescribeBarChart:
 
         ax_mock.bar.assert_called_once()
         args, kwargs = ax_mock.bar.call_args
-        assert args[0].tolist() == ["p1", "p2", "p2", "p3", "p3", "p3"]
+        assert args[0].tolist() == ["p1", "p2", "p3"]
         assert args[1] == []
 
          

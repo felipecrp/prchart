@@ -27,6 +27,10 @@ class Category(Series):
     def __init__(self, column: str):
         super().__init__(column)
 
+    def values(self):
+        data = self.data.groupby([self.column]).size().reset_index(name='count')
+        return data[self.column].values
+
 
 class Value(Series):
     """
